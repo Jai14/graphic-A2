@@ -84,18 +84,18 @@ void GLWidget::setProjection() {
             glOrtho(static_cast<GLdouble>(-m_ortho.extent),
                     static_cast<GLdouble>(m_ortho.extent),
                     static_cast<GLdouble>(-m_ortho.extent) / aspectRatio,
-                    static_cast<GLdouble>(m_ortho.extent) / aspectRatio, m_ortho.nearPlane, m_ortho.farPlane);
+                    static_cast<GLdouble>(m_ortho.extent) / aspectRatio, m_ortho.nearPlane, m_ortho.farPlane*5);
         } else {
             glOrtho(static_cast<GLdouble>(-m_ortho.extent) * aspectRatio,
                     static_cast<GLdouble>(m_ortho.extent) * aspectRatio,
                     static_cast<GLdouble>(-m_ortho.extent),
-                    static_cast<GLdouble>(m_ortho.extent), m_ortho.nearPlane, m_ortho.farPlane);
+                    static_cast<GLdouble>(m_ortho.extent), m_ortho.nearPlane, m_ortho.farPlane*5);
         }
     } else {
         QMatrix4x4 projectionMat;
         projectionMat.setToIdentity();
         projectionMat.perspective(m_perspective.zoom, m_perspective.aspectRatio,
-                                  m_perspective.nearPlane, m_perspective.farPlane);
+                                  m_perspective.nearPlane, m_perspective.farPlane*5);
         glLoadMatrixf(projectionMat.constData());
     }
 }
@@ -116,6 +116,7 @@ void GLWidget::paintGL() {
                    m_lookAt.eye+m_lookAt.center,
                    m_lookAt.up);
     glLoadMatrixf(viewMat.constData());
+
 
     if (m_showGrid) {
         drawGrid(magenta);
@@ -321,8 +322,8 @@ void GLWidget::setupObjects() {
     /* Example code to get you started */
 
 
-    m_objects["universe"] = new Cube();
-    m_objects["universe"]->loadTexture(QDir::homePath() + "/Desktop/space.jpg", m_textures[0]);
+    m_objects["universe"] = new Sphere(100.f,100,100);
+    m_objects["universe"]->loadTexture(QDir::homePath() + "/Desktop/space.jpg", m_textures[1]);
 
     m_objects["body"] = new Cylinder(0.7f, 2.f, 32);
     m_objects["body"]->m_color = orange;
@@ -357,7 +358,6 @@ void GLWidget::drawObjects() {
 
     //Universe
     glPushMatrix();
-    glScalef(60.f,60.f,60.f);
     m_objects["universe"]->draw();
     glPopMatrix();
 

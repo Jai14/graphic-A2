@@ -110,6 +110,7 @@ void Cube::draw() {
     };
 
     // Tell OpenGL we are going to pass in info for quads
+
     glEnable(GL_TEXTURE_2D);
     glBegin(GL_QUADS);
 
@@ -124,19 +125,20 @@ void Cube::draw() {
         // Vertex positions and matching texture coordinates
 
         glVertex3f(vertices[faces[i][0]].x, vertices[faces[i][0]].y, vertices[faces[i][0]].z);
-        glTexCoord2f(0.0f, 1.0f);
+        glTexCoord2f(0, 0);
 
         glVertex3f(vertices[faces[i][1]].x, vertices[faces[i][1]].y, vertices[faces[i][1]].z);
-        glTexCoord2f(1.0f, 1.0f);
+        glTexCoord2f(0, 1);
 
         glVertex3f(vertices[faces[i][2]].x, vertices[faces[i][2]].y, vertices[faces[i][2]].z);
-        glTexCoord2f(0.0f, 0.0f);
+        glTexCoord2f(1, 0);
 
         glVertex3f(vertices[faces[i][3]].x, vertices[faces[i][3]].y, vertices[faces[i][3]].z);
-        glTexCoord2f(1.0f, 0.0f);
+        glTexCoord2f(1, 1);
 
     }
     glEnd();
+
 
     if(m_hasTexture){
         glDisable(GL_TEXTURE_2D);
